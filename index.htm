@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
+	<meta charset="UTF-8"> 
 	<head>
 		<title>Vector Game</title>
 		<script src="script.js"></script>
 	</head>
-	<body onload="run()">
-		<p>Top Text</p>
-		<canvas id="canvas" width="200" height="100" style="border:1px solid #000000;"></canvas>
+	<body onload="onLoad()" style="overflow:hidden">
+		<textarea readonly id="textOutput" rows=10 cols=30></textarea>
+		<br />
+		<input type="text" id="textInput" size=28 />
+		<button onClick="submit()">Submit</button>
 	</body>
 </html>

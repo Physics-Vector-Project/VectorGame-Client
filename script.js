@@ -1,18 +1,51 @@
-function run()
+var sock;
+var textOutput;
+var textInput;
+
+function onLoad()
 {
-	var c = document.getElementById("canvas"); //Get canvas
+	textOutput = document.getElementById("textOutput");
+	textOutput.value = "";
+	textInput = document.getElementById("textInput");
+	textInput.value = "";
 
-	var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth; //Cross-browser way to get window size
-	var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+	connect();
+}
 
-	c.width = width; //Set canvas size
-	c.height = height;
+function connect()
+{
+	console.log("Connecting...");
+	sock = new WebSocket("ws://165.227.75.207:1966");
 
-	var ctx = c.getContext("2d"); //Get canvas to draw stuff
+	sock.onopen = function()
+	{
+		console.log("Connected!");
+	}
 
-	ctx.moveTo(0, 0); //Draw test line
-	ctx.lineTo(width, height);
-	ctx.moveTo(0, height);
-	ctx.lineTo(width, 0);
-	ctx.stroke();
+	sock.onmessage = function(evt)
+	{
+		console.log("Data Recieved: " + evt.data);
+		textOutput.value += "165.227.74.207: " + evt.data + "\n";
+	}
+
+	sock.onclose = function(evt)
+	{
+		console.log("Closing");
+	}
+
+	sock.onerror = function(evt)
+	{
+		console.log("Error");
+	}
+}
+
+function send(text)
+{
+	textOutput.value += "localhost: " + text + "\n";
+	sock.send(text);
+}
+
+function submit()
+{
+	send(textInput.value);
 }
